@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  waf_engine:
+    build: ./waf_core
+    container_name: neurowall_waf
+    ports:
+      - "8000:8000"
+    restart: always
+
+  command_center:
+    build: ./dashboard
+    container_name: neurowall_dashboard
+    ports:
+      - "8501:8501"
+    depends_on:
+      - waf_engine  # This ensures the WAF boots up before the dashboard
+    restart: always
